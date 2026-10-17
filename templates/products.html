@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Products | ShopDemo{% endblock %}
+{% block content %}
+<h1>Products</h1>
+<form id="search-form" method="get" action="{{ url_for('products') }}" class="panel">
+  <label for="search">Search products</label>
+  <input id="search" name="q" value="{{ query }}" placeholder="Try Python, mouse, electronics">
+  <p><button id="search-submit" type="submit">Search</button></p>
+</form>
+<div id="product-list" class="grid">
+{% for product in products %}
+  <article class="product" data-product-id="{{ product.id }}">
+    <h2 class="product-name">{{ product.name }}</h2>
+    <p class="muted">{{ product.category }}</p>
+    <p class="price">${{ "%.2f"|format(product.price) }}</p>
+    <form method="post" action="{{ url_for('add_to_cart', product_id=product.id) }}">
+      <input type="hidden" name="q" value="{{ query }}">
+      <button class="add-to-cart" type="submit" data-product-name="{{ product.name }}">Add to Cart</button>
+    </form>
+  </article>
+{% else %}
+  <p id="no-results">No products found.</p>
+{% endfor %}
+</div>
+{% endblock %}

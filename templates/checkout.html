@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Checkout | ShopDemo{% endblock %}
+{% block content %}
+<h1>Checkout</h1>
+<section class="panel">
+  <h2>Order summary</h2>
+  <ul>{% for item in items %}<li>{{ item.name }} × {{ item.quantity }} — ${{ "%.2f"|format(item.subtotal) }}</li>{% endfor %}</ul>
+  <p id="checkout-total" class="price">Total: ${{ "%.2f"|format(total) }}</p>
+</section>
+<section class="panel">
+  <h2>Shipping details</h2>
+  <form id="checkout-form" method="post">
+    <label for="full_name">Full name</label><input id="full_name" name="full_name" required>
+    <label for="address">Street address</label><input id="address" name="address" required>
+    <label for="city">City</label><input id="city" name="city" required>
+    <label for="postal_code">Postal code</label><input id="postal_code" name="postal_code" required>
+    <p><button id="place-order" type="submit">Place Test Order</button></p>
+  </form>
+</section>
+{% endblock %}

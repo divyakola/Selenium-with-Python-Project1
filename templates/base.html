@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}ShopDemo{% endblock %}</title>
+  <style>
+    body{font-family:Arial,sans-serif;max-width:1000px;margin:0 auto;padding:24px;color:#20242a;background:#f7f8fa}
+    header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:12px 0 20px;border-bottom:1px solid #ddd}
+    a{color:#155eef} nav{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+    .panel,.product{background:white;border:1px solid #e1e4e8;border-radius:10px;padding:18px;margin:16px 0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+    label{display:block;margin:12px 0 5px} input{box-sizing:border-box;width:100%;padding:10px;border:1px solid #bbb;border-radius:6px}
+    button,.button{background:#155eef;color:white;border:0;padding:10px 14px;border-radius:6px;cursor:pointer;text-decoration:none;display:inline-block}
+    .secondary{background:#525866}.flash{padding:10px;border-radius:6px;margin:12px 0}.success{background:#e7f8ec}.error{background:#ffe9e9}
+    .price{font-weight:bold;font-size:1.1rem}.muted{color:#666} table{width:100%;border-collapse:collapse;background:white}
+    th,td{text-align:left;padding:12px;border-bottom:1px solid #ddd} footer{margin-top:35px;color:#666;font-size:.9rem}
+  </style>
+</head>
+<body>
+<header>
+  <div><a href="{{ url_for('products') }}"><strong>ShopDemo</strong></a> <span class="muted">QA practice store</span></div>
+  <nav>
+    {% if current_user %}
+      <span id="welcome-user">Hi, {{ current_user.name }}</span>
+      <a href="{{ url_for('products') }}">Products</a>
+      <a id="cart-link" href="{{ url_for('cart') }}">Cart ({{ cart_count }})</a>
+      <form action="{{ url_for('logout') }}" method="post" style="margin:0"><button id="logout-button" class="secondary" type="submit">Logout</button></form>
+    {% else %}
+      <a href="{{ url_for('signup') }}">Sign Up</a><a href="{{ url_for('signin') }}">Sign In</a>
+    {% endif %}
+  </nav>
+</header>
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% for category, message in messages %}<div class="flash {{ category }}" role="status">{{ message }}</div>{% endfor %}
+{% endwith %}
+<main>{% block content %}{% endblock %}</main>
+<footer>Local demo only — checkout does not process real payments.</footer>
+</body>
+</html>

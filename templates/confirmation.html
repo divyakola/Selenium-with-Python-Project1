@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Order Confirmation | ShopDemo{% endblock %}
+{% block content %}
+<section class="panel" id="order-confirmation">
+  <h1>Order placed successfully!</h1>
+  <p>Thank you, {{ order.name }}. This is a simulated test order.</p>
+  <p>Order ID: <strong id="order-id">{{ order.id }}</strong></p>
+  <p id="confirmation-total" class="price">Order total: ${{ "%.2f"|format(order.total) }}</p>
+  <h2>Items</h2>
+  <ul>{% for item in order.items %}<li>{{ item.name }} × {{ item.quantity }}</li>{% endfor %}</ul>
+  <a class="button" href="{{ url_for('products') }}">Continue shopping</a>
+</section>
+{% endblock %}
